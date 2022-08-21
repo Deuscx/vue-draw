@@ -1,7 +1,5 @@
 import type { fabric } from 'fabric'
-import { Room } from '@y-presence/client'
 import {
-  awareness,
   doc,
   provider,
   undoManager,
@@ -9,10 +7,7 @@ import {
 } from './store'
 import useState from '~/composables/useState'
 
-// TODO: Room cursor awareness
-const room = new Room(awareness, {})
-
-export function useMultiplayer(roomId: string) {
+export function useMultiplayer() {
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null)
   function onMount(canvas: fabric.Canvas) {
     setCanvas(canvas)
@@ -43,6 +38,7 @@ export function useMultiplayer(roomId: string) {
     yShapes.observeDeep(handleChanges)
     handleChanges()
   }
+
   tryOnMounted(() => {
     setup()
   })

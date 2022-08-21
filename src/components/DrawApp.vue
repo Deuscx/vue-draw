@@ -12,7 +12,7 @@ const props = defineProps<{
  * https://github.com/fabricjs/fabric.js/wiki/How-to-set-additional-properties-in-all-fabric.Objects
  */
 
-const emit = defineEmits(['changePage'])
+const emit = defineEmits(['changePage', 'pointermove'])
 let rectInstance: fabric.Rect | null
 let ellipseInstance: fabric.Ellipse | null
 let triangleInstance: fabric.Triangle | null
@@ -174,6 +174,10 @@ const initCanvas = () => {
 
   canvas.on('object:modified', (e) => {
     emitCanvasData()
+  })
+
+  canvas.on('mouse:move', ({ e }) => {
+    emit('pointermove', canvas.getPointer(e))
   })
   return canvas
 }
@@ -462,7 +466,10 @@ function enterDrawPencil(e: fabric.IEvent) {
       To Json
     </button>
   </div>
-  <canvas id="canvas" ref="canvasRef" h100vh w100vw />
+  <div absolute>
+    <canvas id="canvas" ref="canvasRef" h100vh w100vw />
+    <slot />
+  </div>
 </template>
 
 <style scoped>
